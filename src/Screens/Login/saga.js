@@ -2,6 +2,7 @@ import { takeLatest, put } from 'redux-saga/effects';
 import { HTTP_METHODS } from '../../Constants/api-constants';
 
 import {GENERATE_TOKEN} from '../../Constants/api-end-points';
+import Cipher from '../../utils/Security';
 import request from '../../utils/request';
 
 /**
@@ -24,7 +25,8 @@ function* fetchUser(action) {
         api: GENERATE_TOKEN(), // Generate api end point
         method: HTTP_METHODS.POST,
         token: null, // Authorization token
-        params: {email: action.payload.email} // Required body for HTTP request 
+        params: {email: yield Cipher.encryptData(action.payload.email)}, // Required body for HTTP request, encryption can be omitted
+        encryption: false // Optional parameter to encrypt data, set true to encrypt
     }
     const user = yield request(_req);
 

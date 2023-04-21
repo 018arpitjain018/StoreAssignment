@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { DeviceEventEmitter } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,7 +10,10 @@ import AuthRoute from './src/route/AuthRoute';
 import MainRoute from './src/route/MainRoute';
 import { unAuthorizedUser } from './src/Constants';
 
+import Splash from './src/Screens/Splash';
+
 function App() {
+  const [isAppLoading, setIsAppLoading] = useState(true)
   const isSignedIn = useSelector(state => state.AuthReducer.token);
   const dispatch = useDispatch();
   let _unAuthorizedUser = null;
@@ -55,6 +58,27 @@ function App() {
    */
   const unMountOperations = () => {
     _unAuthorizedUser && _unAuthorizedUser.remove && _unAuthorizedUser.remove()
+  }
+
+  /**
+   * This function sets the state of isAppLoading to false, indicating that the app has finished loading.
+   * 
+   * @params
+   * This method does not take any parameters.
+   * @returns 
+   * This method does not return any value.
+   */
+  const appLoaded = () => setIsAppLoading(false)
+
+  /**
+   * The Splash component is designed to display a loading screen while the app is loading, 
+   * this code ensures that the loading screen is displayed until the appLoaded function is called, 
+   * at which point the actual content of the app will be rendered.
+   */
+  if (isAppLoading) {
+    return (
+      <Splash loaded={appLoaded} />
+    )
   }
 
   return (

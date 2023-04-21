@@ -5,6 +5,7 @@ import Avatar from "./Avatar";
 import Post from "./Post";
 import CardSection from "./Post/CardSection";
 import SecondaryButton from "./SecondaryButton";
+import Logo from './Logo';
 
 /**
  * It exports a collection of React components that can be used in other parts of an application.
@@ -16,5 +17,6 @@ module.exports = {
     Avatar: Avatar,
     Post: Post,
     SecondaryButton: SecondaryButton,
-    CardSection: CardSection
+    CardSection: CardSection,
+    Logo: Logo,
 }

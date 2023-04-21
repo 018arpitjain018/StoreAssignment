@@ -1,6 +1,7 @@
 import {DeviceEventEmitter} from 'react-native';
 import { unAuthorizedUser } from '../Constants';
 import { HTTP_METHODS } from "../Constants/api-constants";
+import Cipher from './Security';
 
 /**
  * This is a JavaScript function named request which takes an object with four properties (api, method, token, and params) as its argument. 
@@ -15,7 +16,7 @@ import { HTTP_METHODS } from "../Constants/api-constants";
  * @returns
  * It returns, response promise from request object
  */
-export default function request({api, method, token, params}) {
+export default async function request({api, method, token, params, encryption}) {
     try {
 
         /**
@@ -49,7 +50,15 @@ export default function request({api, method, token, params}) {
          * it creates a request body with the params object passed in.
          */
         if (method === HTTP_METHODS.POST) {
-            const body = JSON.stringify(params)
+            let body = JSON.stringify(params)
+
+            /**
+             * This code snippet checks if encryption is true, and if so, 
+             * encrypts the body of a request using a method called encryptData from the Cipher module.
+             */
+            if (encryption) {
+                body = await Cipher.encryptData(body)
+            }
 
             requestOptions = {
                 ...requestOptions,
@@ -57,7 +66,7 @@ export default function request({api, method, token, params}) {
             }
         }
 
-        return fetch(api, requestOptions).then(res => {
+        return await fetch(api, requestOptions).then(res => {
 
             if (res.status === 200 || res.status === 201) {
                 /**

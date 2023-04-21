@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {KeyboardAvoidingView, Platform} from 'react-native';
+import {KeyboardAvoidingView, Platform, Image} from 'react-native';
 import { useDispatch } from 'react-redux'
 
 import {login} from './reducer';
-import {Text, InputTxt, AppButton} from '../../Components';
+import {InputTxt, AppButton, Logo} from '../../Components';
 import {EMAIL_REGEX} from '../../Constants';
 
 import styles from './styles';
@@ -58,7 +58,7 @@ function Login() {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       {/* Page Header */}
-      <Text>Login Screen</Text>
+      <Logo />
       
       {/* Content */}
       <InputTxt placeholder="What's your Email??" onChangeText={setEmail} inputMode='email' keyboardType={'email-address'} autoFocus={true} onSubmitEditing={() => submitEnable && userLogin()} />
