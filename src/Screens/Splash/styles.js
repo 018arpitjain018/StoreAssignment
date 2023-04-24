@@ -19,7 +19,11 @@ export default StyleSheet.create({
      * The style object for the view that contains the action button(s).
      */
     actionView: {
-        paddingHorizontal: CONTAINER_PADDING,
+        position: 'absolute',
+        bottom: 0,
+        left: 0, 
+        right: 0,
+        marginHorizontal: CONTAINER_PADDING,
         marginVertical: CONTAINER_PADDING * 2
     }
 })

@@ -6,6 +6,7 @@ import Post from "./Post";
 import CardSection from "./Post/CardSection";
 import SecondaryButton from "./SecondaryButton";
 import Logo from './Logo';
+import SnapCarousel from "./SnapCarousel";
 
 /**
  * It exports a collection of React components that can be used in other parts of an application.
@@ -19,4 +20,5 @@ module.exports = {
     SecondaryButton: SecondaryButton,
     CardSection: CardSection,
     Logo: Logo,
+    SnapCarousel: SnapCarousel
 }

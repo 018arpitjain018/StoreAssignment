@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import { View, ImageBackground } from 'react-native';
-import {Text, AppButton} from '../../Components';
+import React, {useEffect, useState, useRef} from 'react';
+import { View, Animated } from 'react-native';
+import {AppButton, SnapCarousel} from '../../Components';
 
 import Cipher from '../../utils/Security';
 import styles from './styles';
@@ -9,6 +9,7 @@ import { BACKGROUND_IMAGE } from '../../Assets';
 function Splash({loaded}) {
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false);
+    const fadeInAnim = useRef(new Animated.Value(0)).current;
 
     /**
      * It is used to load the app data when the component mounts for the first time
@@ -16,6 +17,14 @@ function Splash({loaded}) {
     useEffect(() => {
         loadAppData()
     }, [])
+
+    useEffect(() => {
+        Animated.timing(fadeInAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start();
+    }, [fadeInAnim]);
 
     /**
      * This function loads the public keys required for encryption of user data. 
@@ -70,11 +79,10 @@ function Splash({loaded}) {
 
     return (
         <View style={styles.container}>
-            <ImageBackground style={[styles.container, styles.backgroundImage]} source={BACKGROUND_IMAGE[0]}>
-                <View style={styles.actionView}>
-                    <AppButton title={isError ? 'Try Again!' : 'Continue'} disbale={isLoading} loading={isLoading} onPress={() => isError ? tryAgain() : navigateToApp()}  />
-                </View>
-            </ImageBackground>
+            <SnapCarousel data={BACKGROUND_IMAGE} />
+            <Animated.View style={[styles.actionView, {opacity: fadeInAnim}]}>
+                <AppButton title={isError ? 'Try Again!' : 'Continue'} disbale={isLoading} loading={isLoading} onPress={() => isError ? tryAgain() : navigateToApp()}  />
+            </Animated.View>
         </View>
     )
 }
